@@ -19,8 +19,7 @@ a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid rgb(var(--gold));outline-offset:3px}
 
 .hero-bg{position:absolute;inset:0 0 auto;height:640px;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(#000 58%,transparent);mask-image:linear-gradient(#000 58%,transparent)}
-.glow{position:absolute;left:50%;top:300px;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;filter:blur(26px);will-change:transform;
-  background:radial-gradient(closest-side at 24% 28%,rgba(var(--gold),.7),transparent 72%),radial-gradient(closest-side at 78% 74%,rgba(255,140,0,.45),transparent 70%),radial-gradient(closest-side at 50% 50%,rgba(255,205,70,.16),transparent 80%)}
+.glow{position:absolute;left:50%;top:300px;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;filter:blur(26px);will-change:transform;background:radial-gradient(closest-side at 24% 28%,rgba(var(--gold),.7),transparent 72%),radial-gradient(closest-side at 78% 74%,rgba(255,140,0,.45),transparent 70%),radial-gradient(closest-side at 50% 50%,rgba(255,205,70,.16),transparent 80%)}
 .petals{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .petal{position:absolute;top:-40px;animation:fall linear infinite,sway ease-in-out infinite alternate}
 .petal svg{display:block;width:100%;height:100%;animation:spin linear infinite}
@@ -36,21 +35,19 @@ a{color:inherit;text-decoration:none}
 .banner{position:relative;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.5)}
 .banner img{width:100%;border-radius:14px}
 .banner .cover{aspect-ratio:16/9;object-fit:cover}
-.banner .frame{position:absolute;inset:0;height:100%;pointer-events:none}
+.banner .frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;object-fit:fill}
+
 .avatar{position:relative;width:var(--av);height:var(--av);margin:calc(var(--av)/-2) auto 0}
 .pic{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff}
-.ring{position:absolute;left:50%;top:calc(-10% - 2px);width:58%;transform:translateX(-50%);pointer-events:none}
-.name{margin-top:14px;display:flex;justify-content:center;align-items:center;gap:8px;text-align:center;font:400 clamp(1.5rem,7vw,1.9rem)/1.2 "Redaction 35",Georgia,serif}
+.ring{position:absolute;left:50%;top:-22px;width:72%;transform:translateX(-50%);pointer-events:none}
+
+.name{margin-top:14px;display:flex;justify-content:center;align-items:center;gap:8px;text-align:center;font:400 clamp(1.2rem,5.5vw,1.6rem)/1.2 "Redaction 35",Georgia,serif}
 .name span{color:#fff;text-shadow:0 0 4px #fff,0 0 10px #7df9ff,0 0 22px #20c8ff,0 0 42px #0a9cff;animation:neon 3.5s ease-in-out infinite alternate}
 @keyframes neon{to{text-shadow:0 0 3px #fff,0 0 8px #7df9ff,0 0 15px #20c8ff,0 0 28px #0a9cff}}
 .name img{width:1.1em;height:1.1em}
 
-.socials{display:flex;width:max-content;margin:14px auto 0;gap:22px;padding:8px 18px;border-radius:999px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.3);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 24px rgba(0,0,0,.5)}
-.socials a{position:relative;display:block}
-.socials a+a::before{content:"";position:absolute;left:-12px;top:22%;height:56%;width:1px;background:rgba(255,255,255,.28)}
-.ic{display:block;width:42px;height:42px;transition:transform .5s var(--ease)}
-a:active .ic{transform:scale(.92)}
-@media (hover:hover){a:hover .ic{transform:translateY(-2px) scale(1.08)}}
+.bio{padding:3vh 6px 3vh;text-align:center;font:clamp(1.7rem,7.4vw,2.2rem)/1.85 ui-serif,"New York","Iowan Old Style",Georgia,"Times New Roman",serif}
+.vn{display:inline-block;padding-right:.1em;font-style:italic;font-weight:800;background:linear-gradient(100deg,#ff1f1f,#da251d 35%,#ffcd00 75%,#ffe34d);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(255,170,0,.35))}
 
 .glass{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.38);border-radius:999px;background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(15px) saturate(170%);backdrop-filter:blur(15px) saturate(170%);box-shadow:inset 0 1px 1px rgba(255,255,255,.55),inset 0 -12px 24px rgba(255,255,255,.07),0 14px 34px rgba(0,0,0,.5)}
 .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.3),transparent 42%)}
@@ -71,10 +68,14 @@ a:active .ic{transform:scale(.92)}
 .play .pa,.playing .play .pl{opacity:0;transform:scale(.4)}
 .playing .play .pa{opacity:1;transform:none}
 
-.bio{padding:12vh 6px 6vh;font:clamp(1.7rem,7.4vw,2.2rem)/1.85 ui-serif,"New York","Iowan Old Style",Georgia,"Times New Roman",serif}
-.vn{display:inline-block;padding-right:.1em;font-style:italic;font-weight:800;background:linear-gradient(100deg,#ff1f1f,#da251d 35%,#ffcd00 75%,#ffe34d);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(255,170,0,.35))}
+.socials{display:flex;width:max-content;margin:18px auto 0;gap:22px;padding:8px 18px;border-radius:999px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.3);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 24px rgba(0,0,0,.5)}
+.socials a{position:relative;display:block}
+.socials a+a::before{content:"";position:absolute;left:-12px;top:22%;height:56%;width:1px;background:rgba(255,255,255,.28)}
+.ic{display:block;width:42px;height:42px;transition:transform .5s var(--ease)}
+a:active .ic{transform:scale(.92)}
+@media (hover:hover){a:hover .ic{transform:translateY(-2px) scale(1.08)}}
 
-.actions{display:grid;gap:18px;padding:0 4px}
+.actions{display:grid;gap:18px;padding:24px 4px 0}
 .action{width:100%;display:flex;align-items:center;gap:14px;padding:12px 24px 12px 16px;color:#fff;cursor:pointer;text-align:center;text-shadow:0 1px 10px rgba(0,0,0,.45);font:700 clamp(1.05rem,4.8vw,1.3rem)/1.25 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;transition:transform .55s var(--ease),background .55s var(--ease)}
 .action:active{transform:scale(.965)}
 @media (hover:hover){.action:hover{transform:translateY(-3px) scale(1.015);background:rgba(255,255,255,.16)}}
@@ -83,7 +84,7 @@ a:active .ic{transform:scale(.92)}
 .action span{flex:1}
 .price{font:700 1em Qilka,sans-serif;color:#00e5ff;text-shadow:0 0 10px rgba(0,229,255,.6)}
 
-footer{position:relative;z-index:1;padding:14vh 20px calc(40px + env(safe-area-inset-bottom));text-align:center;font-size:.95rem;line-height:1.9;color:rgba(255,255,255,.72)}
+footer{position:relative;z-index:1;padding:8vh 20px calc(40px + env(safe-area-inset-bottom));text-align:center;font-size:.95rem;line-height:1.9;color:rgba(255,255,255,.72)}
 footer em{color:#fff}
 
 .overlay{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility 0s .5s}
@@ -120,11 +121,7 @@ footer em{color:#fff}
 
   <h1 class="name reveal" style="--d:.15s"><span>PNguyen Huy Hoang</span><img src="image/tichxanh.gif" alt="Đã xác minh"></h1>
 
-  <nav class="socials reveal" style="--d:.22s" aria-label="Mạng xã hội">
-    <a data-link="fb" aria-label="Facebook"><svg class="ic"><use href="#i-fb"/></svg></a>
-    <a data-link="zalo" aria-label="Zalo"><svg class="ic"><use href="#i-zalo"/></svg></a>
-    <a data-link="discord" aria-label="Discord"><svg class="ic"><use href="#i-dc"/></svg></a>
-  </nav>
+  <p class="bio reveal">I’m a <span class="vn">Vietnam</span> people. I love vibe code, listen music and sleep.</p>
 
   <div class="player glass reveal">
     <div class="disc"><img src="image/dianhac.png" alt="Đĩa nhạc"></div>
@@ -136,10 +133,14 @@ footer em{color:#fff}
     <audio id="audio" src="audio/exhateme.mp3" preload="metadata" loop></audio>
   </div>
 
-  <p class="bio reveal">I’m a <span class="vn">Vietnam</span> people. I love vibe code, listen music and sleep.</p>
+  <nav class="socials reveal" style="--d:.22s" aria-label="Mạng xã hội">
+    <a data-link="fb" aria-label="Facebook"><svg class="ic"><use href="#i-fb"/></svg></a>
+    <a data-link="zalo" aria-label="Zalo"><svg class="ic"><use href="#i-zalo"/></svg></a>
+    <a data-link="discord" aria-label="Discord"><svg class="ic"><use href="#i-dc"/></svg></a>
+  </nav>
 
   <section class="actions">
-    <div class="reveal"><button class="action glass" type="button" data-open-modal><img src="image/ctr.png" alt=""><i></i><span>Cải thiện Rank, Top Tướng</span></button></div>
+    <div class="reveal"><button class="action glass" type="button" data-open-modal><img src="image/ctr.png" alt=""><i></i><span>Cải thiện rank, top tướng</span></button></div>
     <div class="reveal" style="--d:.1s"><button class="action glass" type="button" data-open-modal><img src="image/cs.png" alt=""><i></i><span>Chung sức LQ siêu tốc <b class="price">35k</b></span></button></div>
     <div class="reveal" style="--d:.2s"><button class="action glass" type="button" data-open-modal><img src="image/hcj.png" alt=""><i></i><span>Làm website Profile, Custom Hook,…</span></button></div>
   </section>
@@ -210,8 +211,20 @@ const frame = t => {
   if (running) requestAnimationFrame(frame);
 };
 const run = () => { if (!running) { running = true; last = performance.now(); requestAnimationFrame(frame); } };
-$('.play').addEventListener('click', () => audio.paused ? audio.play().catch(() => {}) : audio.pause());
-['play', 'pause'].forEach(ev => audio.addEventListener(ev, () => { player.classList.toggle('playing', !audio.paused); run(); }));
+
+$('.play').addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play().catch(() => {});
+  } else {
+    audio.pause();
+  }
+});
+
+['play', 'pause'].forEach(ev => audio.addEventListener(ev, () => {
+  player.classList.toggle('playing', !audio.paused);
+  run();
+}));
+
 seek.addEventListener('pointerdown', () => dragging = true);
 ['pointerup', 'pointercancel'].forEach(ev => seek.addEventListener(ev, () => dragging = false));
 seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = seek.value / 1000 * audio.duration; paint(); });
