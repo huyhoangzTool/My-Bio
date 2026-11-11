@@ -109,6 +109,14 @@ footer em{color:#fff}
 .close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:0;border-radius:50%;cursor:pointer;
   background:rgba(0,0,0,.08);color:#2a1c00;font-size:16px;line-height:1;transition:transform .45s var(--ease)}
 .close:active{transform:scale(.88)}
+/* ===== Hoa anh đào rơi (nền) ===== */
+.petals{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.petal{position:absolute;top:-40px;animation:fall linear infinite,sway ease-in-out infinite alternate}
+.petal svg{display:block;width:100%;height:100%;animation:spin linear infinite}
+@keyframes fall{to{transform:translateY(calc(100vh + 80px))}}
+@keyframes sway{from{translate:-28px 0}to{translate:28px 0}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.petals{display:none}}
 :focus-visible{outline:2px solid rgba(var(--gold),.9);outline-offset:3px}
 </style>
 </head>
@@ -117,8 +125,8 @@ footer em{color:#fff}
 <!-- Bộ icon SVG dùng lại nhiều chỗ (thay bằng icon khác nếu muốn) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-fb" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M16.67 15.47 17.2 12h-3.33V9.75c0-.95.47-1.88 1.96-1.88h1.51V4.92s-1.37-.23-2.69-.23c-2.74 0-4.53 1.66-4.53 4.67V12H7.08v3.47h3.05V24h3.75v-8.53z"/></symbol>
-  <symbol id="i-zalo" viewBox="0 0 24 24"><rect width="24" height="24" rx="7" fill="#0068FF"/><text x="12" y="15.2" text-anchor="middle" font-family="Arial,sans-serif" font-weight="700" font-size="8.4" fill="#fff">Zalo</text></symbol>
-  <symbol id="i-dc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#5865F2"/><path fill="#fff" d="M17.6 7.3c-.9-.4-1.8-.7-2.8-.9l-.4.8a10 10 0 0 0-3 0l-.4-.8c-1 .2-1.9.5-2.8.9-1.8 2.5-2.3 5-2.1 7.4 1.1.8 2.3 1.4 3.6 1.8l.8-1.3-1.2-.6.3-.2c2.3 1.1 4.8 1.1 7.1 0l.3.2-1.2.6.8 1.3c1.3-.4 2.5-1 3.6-1.8.3-2.8-.4-5.2-2.2-7.4z"/><circle cx="9.6" cy="12.4" r="1.2" fill="#5865F2"/><circle cx="14.4" cy="12.4" r="1.2" fill="#5865F2"/></symbol>
+  <symbol id="i-zalo" viewBox="0 0 24 24"><path fill="#0068FF" d="M7 1h10a6 6 0 0 1 6 6v7a6 6 0 0 1-6 6H8.5L3 23.5l1.3-4.4A6 6 0 0 1 1 14V7a6 6 0 0 1 6-6z"/><text x="12" y="13.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="8.4" letter-spacing="-.2" fill="#fff">Zalo</text></symbol>
+  <symbol id="i-dc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#5865F2"/><path fill="#fff" transform="translate(4.8 4.8) scale(.6)" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></symbol>
   <symbol id="i-dog" viewBox="0 0 64 48">
     <path d="M10 33c-7-2-8-12-2-15 1 5 4 8 8 9z" fill="#F4A24C"/>
     <ellipse cx="31" cy="35" rx="23" ry="10.5" fill="#F4A24C"/>
@@ -131,21 +139,28 @@ footer em{color:#fff}
     <circle cx="40" cy="33" r="2" fill="#FF9DA8" opacity=".55"/><circle cx="57" cy="33" r="2" fill="#FF9DA8" opacity=".55"/>
     <g fill="#CFE0FF" font-family="Arial,sans-serif" font-weight="700"><text x="53" y="9" font-size="8">z</text><text x="59" y="4.5" font-size="5.5">z</text></g>
   </symbol>
+  <symbol id="i-sakura" viewBox="0 0 11 11"><g shape-rendering="crispEdges">
+    <path fill="#FFC4D8" d="M4 0h1v1H4zM6 0h1v1H6zM3 1h5v2H3zM1 3h2v1H1zM4 3h3v1H4zM8 3h2v1H8zM1 4h9v2H1zM2 6h7v1H2zM2 7h3v2H2zM6 7h3v2H6zM3 9h1v1H3zM7 9h1v1H7z"/>
+    <path fill="#FF8FB4" d="M4 4h3v3H4z"/>
+    <path fill="#FFF0F6" d="M4 1h1v1H4zM2 4h1v1H2zM7 7h1v1H7z"/>
+    <path fill="#FFD45E" d="M5 5h1v1H5z"/>
+  </g></symbol>
 </svg>
 
 <!-- Hào quang vàng phía sau ảnh bìa + avatar (JS xoay phần tử #glow) -->
 <div class="hero-bg" aria-hidden="true"><div class="glow" id="glow"></div></div>
+<div class="petals" id="petals" aria-hidden="true"></div>
 
 <main class="wrap">
   <!-- Component: Ảnh bìa + avatar -->
-  <img class="banner reveal" src="/image/banner.jpeg" alt="Ảnh bìa" decoding="async">
+  <img class="banner reveal" src="image/banner.jpeg" alt="Ảnh bìa" decoding="async">
   <div class="avatar reveal" style="--d:.1s">
-    <img class="pic" src="/image/avatar.jpeg" alt="Ảnh đại diện PNguyen Huy Hoang" decoding="async">
-    <img class="ring" src="/image/vien.gif" alt="">
+    <img class="pic" src="image/avatar.jpeg" alt="Ảnh đại diện PNguyen Huy Hoang" decoding="async">
+    <img class="ring" src="image/vien.gif" alt="">
   </div>
 
   <!-- Component: Tên + tích xanh -->
-  <h1 class="name reveal" style="--d:.15s">PNguyen Huy Hoang<img src="/image/tichxanh.gif" alt="Đã xác minh"></h1>
+  <h1 class="name reveal" style="--d:.15s">PNguyen Huy Hoang<img src="image/tichxanh.gif" alt="Đã xác minh"></h1>
 
   <!-- Component: Mạng xã hội (href được gán trong JS, xem biến LINKS) -->
   <nav class="socials reveal" style="--d:.22s" aria-label="Mạng xã hội">
@@ -267,6 +282,23 @@ modal.addEventListener('click', e => {
 addEventListener('keydown', e => {
   if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
 });
+
+/* ===== 4. HOA ANH ĐÀO RƠI =====
+   Tạo các cánh hoa pixel (symbol #i-sakura) với kích thước, tốc độ, độ lắc ngẫu nhiên.
+   Chỉnh số lượng ở biến COUNT. */
+const petalLayer = document.getElementById('petals');
+const COUNT = matchMedia('(max-width:600px)').matches ? 12 : 22;
+for (let i = 0; i < COUNT; i++) {
+  const size = 12 + Math.random() * 16;
+  const el = document.createElement('span');
+  el.className = 'petal';
+  el.style.cssText =
+    `left:${Math.random() * 100}%;width:${size}px;height:${size}px;opacity:${(.45 + Math.random() * .5).toFixed(2)};` +
+    `animation-duration:${(9 + Math.random() * 10).toFixed(1)}s,${(3 + Math.random() * 3).toFixed(1)}s;` +
+    `animation-delay:${(-Math.random() * 18).toFixed(1)}s,${(-Math.random() * 5).toFixed(1)}s`;
+  el.innerHTML = `<svg viewBox="0 0 11 11" style="animation-duration:${(6 + Math.random() * 8).toFixed(1)}s"><use href="#i-sakura"/></svg>`;
+  petalLayer.appendChild(el);
+}
 </script>
 </body>
 </html>
