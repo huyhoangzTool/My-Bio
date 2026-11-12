@@ -6,9 +6,11 @@
 <meta name="theme-color" content="#000">
 <title>PNguyen Huy Hoang</title>
 <script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Redaction+35:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet">
 <style>
-@font-face{font-family:"Redaction 35";src:local("Redaction 35"),url(font/Redaction35-Regular.woff2) format("woff2");font-display:swap}
-@font-face{font-family:Qilka;font-weight:700;src:local("Qilka Bold"),url(font/Qilka-Bold.woff2) format("woff2");font-display:swap}
 :root{--ease:cubic-bezier(.32,.72,0,1);--gold:255,190,40;--av:clamp(132px,38vw,184px)}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html{background:#000;-webkit-text-size-adjust:100%}
@@ -33,10 +35,10 @@ a{color:inherit;text-decoration:none}
 @media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;filter:none;transition:none}.petals{display:none}}
 
 .wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 16px 0}
-.banner{position:relative;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.5)}
+.banner{position:relative;overflow:hidden;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.5)}
 .banner img{width:100%;border-radius:14px}
 .banner .cover{aspect-ratio:16/9;object-fit:cover}
-.banner .frame{position:absolute;inset:0;height:100%;pointer-events:none}
+.banner .frame{position:absolute;inset:0;height:100%;max-width:none;pointer-events:none}
 .avatar{position:relative;width:var(--av);height:var(--av);margin:calc(var(--av)/-2) auto 0}
 .pic{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff}
 .ring{position:absolute;left:50%;top:calc(-10% - 2px);width:58%;transform:translateX(-50%);pointer-events:none}
@@ -71,7 +73,7 @@ a:active .ic{transform:scale(.92)}
 .play .pa,.playing .play .pl{opacity:0;transform:scale(.4)}
 .playing .play .pa{opacity:1;transform:none}
 
-.bio{padding:12vh 6px 6vh;font:clamp(1.7rem,7.4vw,2.2rem)/1.85 ui-serif,"New York","Iowan Old Style",Georgia,"Times New Roman",serif}
+.bio{padding:8vh 6px 6vh;font:clamp(1.7rem,7.4vw,2.2rem)/1.85 ui-serif,"New York","Iowan Old Style",Georgia,"Times New Roman",serif}
 .vn{display:inline-block;padding-right:.1em;font-style:italic;font-weight:800;background:linear-gradient(100deg,#ff1f1f,#da251d 35%,#ffcd00 75%,#ffe34d);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(255,170,0,.35))}
 
 .actions{display:grid;gap:18px;padding:0 4px}
@@ -81,7 +83,7 @@ a:active .ic{transform:scale(.92)}
 .action img{flex:none;width:64px;height:48px;object-fit:contain}
 .action i{align-self:stretch;width:1px;margin:6px 0;background:rgba(255,255,255,.35)}
 .action span{flex:1}
-.price{font:700 1em Qilka,sans-serif;color:#00e5ff;text-shadow:0 0 10px rgba(0,229,255,.6)}
+.price{font:400 1em Coiny,sans-serif;color:#00e5ff;text-shadow:0 0 10px rgba(0,229,255,.6)}
 
 footer{position:relative;z-index:1;padding:14vh 20px calc(40px + env(safe-area-inset-bottom));text-align:center;font-size:.95rem;line-height:1.9;color:rgba(255,255,255,.72)}
 footer em{color:#fff}
@@ -95,14 +97,24 @@ footer em{color:#fff}
 .sheet .ic{width:58px;height:58px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.25))}
 .close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(0,0,0,.08);color:#2a1c00;font-size:16px;line-height:1;cursor:pointer;transition:transform .45s var(--ease)}
 .close:active{transform:scale(.88)}
+@keyframes pop{0%,15%{opacity:0;transform:scale(.4)}35%,85%{opacity:1;transform:none}100%{opacity:0;transform:scale(.4)}}
+.splash{position:fixed;inset:0;z-index:100;display:grid;place-content:center;justify-items:center;gap:22px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(28px);backdrop-filter:blur(28px);transition:opacity .9s var(--ease),visibility 0s .9s}
+.splash.hide{opacity:0;visibility:hidden;pointer-events:none}
+.splash p{font:400 1.8rem/1 "Redaction 35",Georgia,serif}
+.dots i,.hearts svg{display:inline-block;font-style:normal;animation:pop 1.5s var(--ease) infinite both}
+.dots i:nth-child(2),.hearts svg:nth-child(2){animation-delay:.25s}
+.dots i:nth-child(3),.hearts svg:nth-child(3){animation-delay:.5s}
+.hearts{display:flex;gap:10px}
+.hearts svg{width:36px;height:36px;filter:drop-shadow(0 0 8px rgba(255,70,90,.55))}
 </style>
 </head>
-<body>
+<body class="lock">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <symbol id="i-fb" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M16.67 15.47 17.2 12h-3.33V9.75c0-.95.47-1.88 1.96-1.88h1.51V4.92s-1.37-.23-2.69-.23c-2.74 0-4.53 1.66-4.53 4.67V12H7.08v3.47h3.05V24h3.75v-8.53z"/></symbol>
 <symbol id="i-zalo" viewBox="0 0 24 24"><path fill="#0068FF" d="M7 1h10a6 6 0 0 1 6 6v7a6 6 0 0 1-6 6H8.5L3 23.5l1.3-4.4A6 6 0 0 1 1 14V7a6 6 0 0 1 6-6z"/><text x="12" y="13.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="8.4" letter-spacing="-.2" fill="#fff">Zalo</text></symbol>
 <symbol id="i-dc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#5865F2"/><path fill="#fff" transform="translate(4.8 4.8) scale(.6)" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></symbol>
 <symbol id="i-sakura" viewBox="0 0 11 11"><g shape-rendering="crispEdges"><path fill="#FFC4D8" d="M4 0h1v1H4zM6 0h1v1H6zM3 1h5v2H3zM1 3h2v1H1zM4 3h3v1H4zM8 3h2v1H8zM1 4h9v2H1zM2 6h7v1H2zM2 7h3v2H2zM6 7h3v2H6zM3 9h1v1H3zM7 9h1v1H7z"/><path fill="#FF8FB4" d="M4 4h3v3H4z"/><path fill="#FFF0F6" d="M4 1h1v1H4zM2 4h1v1H2zM7 7h1v1H7z"/><path fill="#FFD45E" d="M5 5h1v1H5z"/></g></symbol>
+<symbol id="i-heart" viewBox="0 0 9 9"><g shape-rendering="crispEdges"><path fill="#3b0b12" d="M1 0h3v1H1zM5 0h3v1H5zM0 1h1v4H0zM8 1h1v4H8zM4 1h1v1H4zM1 5h1v1H1zM7 5h1v1H7zM2 6h1v1H2zM6 6h1v1H6zM3 7h1v1H3zM5 7h1v1H5zM4 8h1v1H4z"/><path fill="#ff3b4e" d="M1 1h3v1H1zM5 1h3v1H5zM1 2h7v1H1zM1 3h7v2H1zM2 5h5v1H2zM3 6h3v1H3zM4 7h1v1H4z"/><path fill="#ffd0d6" d="M2 1h1v1H2zM1 2h1v1H1z"/><path fill="#b0182c" d="M7 3h1v2H7zM6 5h1v1H6zM5 6h1v1H5z"/></g></symbol>
 </svg>
 
 <div class="hero-bg" aria-hidden="true"><div class="glow" id="glow"></div></div>
@@ -162,6 +174,11 @@ footer em{color:#fff}
   </div>
 </div>
 
+<div class="splash" id="splash" role="status">
+  <p>Xin chờ chút<span class="dots"><i>.</i><i>.</i><i>.</i></span></p>
+  <div class="hearts"><svg viewBox="0 0 9 9"><use href="#i-heart"/></svg><svg viewBox="0 0 9 9"><use href="#i-heart"/></svg><svg viewBox="0 0 9 9"><use href="#i-heart"/></svg></div>
+</div>
+
 <script>
 const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
 
@@ -184,7 +201,6 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
 const io = new IntersectionObserver(entries => entries.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
 }), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
-$$('.reveal').forEach(el => io.observe(el));
 
 const modal = $('#modal');
 const toggleModal = open => {
@@ -215,6 +231,37 @@ $('.play').addEventListener('click', () => audio.paused ? audio.play().catch(() 
 seek.addEventListener('pointerdown', () => dragging = true);
 ['pointerup', 'pointercancel'].forEach(ev => seek.addEventListener(ev, () => dragging = false));
 seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = seek.value / 1000 * audio.duration; paint(); });
+
+const autoplay = () => audio.play().then(() => ['click', 'keydown'].forEach(ev => removeEventListener(ev, autoplay))).catch(() => {});
+autoplay();
+['click', 'keydown'].forEach(ev => addEventListener(ev, autoplay));
+
+const frame = $('.frame');
+const fitFrame = () => {
+  const w = frame.naturalWidth, h = frame.naturalHeight;
+  if (!w) return;
+  const ctx = Object.assign(document.createElement('canvas'), { width: w, height: h }).getContext('2d');
+  ctx.drawImage(frame, 0, 0);
+  try {
+    const px = ctx.getImageData(0, 0, w, h).data;
+    let l = w, t = h, r = -1, b = -1;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      if (px[(y * w + x) * 4 + 3] > 128) { l = Math.min(l, x); r = Math.max(r, x); t = Math.min(t, y); b = Math.max(b, y); }
+    }
+    if (r < 0) return;
+    const bw = r - l + 1, bh = b - t + 1;
+    Object.assign(frame.style, { left: -l / bw * 100 + '%', top: -t / bh * 100 + '%', width: w / bw * 100 + '%', height: h / bh * 100 + '%' });
+  } catch {}
+};
+frame.complete ? fitFrame() : frame.addEventListener('load', fitFrame);
+
+const splash = $('#splash');
+setTimeout(() => {
+  splash.classList.add('hide');
+  document.body.classList.remove('lock');
+  $$('.reveal').forEach(el => io.observe(el));
+  setTimeout(() => splash.remove(), 1000);
+}, 3000);
 
 const r = (min, range) => (min + Math.random() * range).toFixed(1);
 for (let i = 0; i < (innerWidth < 600 ? 12 : 22); i++) {
