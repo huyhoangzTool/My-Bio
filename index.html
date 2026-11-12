@@ -103,7 +103,7 @@ footer em{color:#fff}
 .splash p{font:400 1.8rem/1 "Redaction 35",Georgia,serif}
 /* Fallback: splash tự ẩn sau 3.5s kể cả khi JS lỗi */
 .splash{animation:splashOff .9s var(--ease) 3.5s forwards}
-@keyframes splashOff{to{opacity:0;visibility:hidden;pointer-events:none}}
+@keyframes splashOff{to{opacity:0;visibility:hidden;pointer-events:none;background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}}
 .dots i,.hearts svg{display:inline-block;font-style:normal;animation:pop 1.5s var(--ease) infinite both}
 .dots i:nth-child(2),.hearts svg:nth-child(2){animation-delay:.25s}
 .dots i:nth-child(3),.hearts svg:nth-child(3){animation-delay:.5s}
@@ -188,7 +188,14 @@ const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s)
 // Cứu hộ: nếu vì lý do gì splash vẫn còn sau 5s, ẩn nó
 setTimeout(() => {
   const s = document.getElementById('splash');
-  if (s) { s.classList.add('hide'); document.body.classList.remove('lock'); setTimeout(() => s.remove(), 1000); }
+  if (s) {
+    s.classList.add('hide');
+    document.body.classList.remove('lock');
+    s.style.backdropFilter = 'none';
+    s.style.webkitBackdropFilter = 'none';
+    s.style.background = 'transparent';
+    setTimeout(() => s.remove(), 1000);
+  }
 }, 5000);
 
 const LINKS = { fb: 'LINK-FACEBOOK-TAI-DAY', zalo: 'https://zalo.me/0366474283', discord: 'https://discord.gg/5N77ej5v' };
@@ -250,4 +257,36 @@ const fitFrame = () => {
   const w = frameEl.naturalWidth, h = frameEl.naturalHeight;
   if (!w) return;
   const ctx = Object.assign(document.createElement('canvas'), { width: w, height: h }).getContext('2d');
-  ctx.drawImage(frameEl
+  ctx.drawImage(frameEl, 0, 0);
+  try {
+    const px = ctx.getImageData(0, 0, w, h).data;
+    let l = w, t = h, r = -1, b = -1;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
+      if (px[(y * w + x) * 4 + 3] > 128) { l = Math.min(l, x); r = Math.max(r, x); t = Math.min(t, y); b = Math.max(b, y); }
+    }
+    if (r < 0) return;
+    const bw = r - l + 1, bh = b - t + 1;
+    Object.assign(frameEl.style, { left: -l / bw * 100 + '%', top: -t / bh * 100 + '%', width: w / bw * 100 + '%', height: h / bh * 100 + '%' });
+  } catch {}
+};
+frameEl.complete ? fitFrame() : frameEl.addEventListener('load', fitFrame);
+
+const splash = $('#splash');
+setTimeout(() => {
+  splash.classList.add('hide');
+  document.body.classList.remove('lock');
+  $$('.reveal').forEach(el => io.observe(el));
+  setTimeout(() => splash.remove(), 1000);
+}, 3000);
+
+const r = (min, range) => (min + Math.random() * range).toFixed(1);
+for (let i = 0; i < (innerWidth < 600 ? 12 : 22); i++) {
+  const size = r(12, 16), petal = document.createElement('span');
+  petal.className = 'petal';
+  petal.style.cssText = `left:${r(0, 100)}%;width:${size}px;height:${size}px;opacity:${r(.45, .5)};animation-duration:${r(9, 10)}s,${r(3, 3)}s;animation-delay:-${r(0, 18)}s,-${r(0, 5)}s`;
+  petal.innerHTML = `<svg viewBox="0 0 11 11" style="animation-duration:${r(6, 8)}s"><use href="#i-sakura"/></svg>`;
+  $('#petals').append(petal);
+}
+</script>
+</body>
+</html>
