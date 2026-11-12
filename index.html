@@ -1,322 +1,88 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#000">
-<title>PNguyen Huy Hoang</title>
-<script>document.documentElement.classList.add('js')</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Redaction+35:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet">
-<style>
-:root{--ease:cubic-bezier(.32,.72,0,1);--gold:255,190,40;--av:clamp(132px,38vw,184px)}
-*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
-html{background:#000;-webkit-text-size-adjust:100%}
-body{min-height:100svh;color:#fff;overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif}
-body.lock{overflow:hidden}
-img{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-:focus-visible{outline:2px solid rgb(var(--gold));outline-offset:3px}
-
-.hero-bg{position:absolute;inset:0 0 auto;height:640px;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(#000 58%,transparent);mask-image:linear-gradient(#000 58%,transparent)}
-.glow{position:absolute;left:50%;top:300px;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;filter:blur(26px);will-change:transform;
-  background:radial-gradient(closest-side at 24% 28%,rgba(var(--gold),.7),transparent 72%),radial-gradient(closest-side at 78% 74%,rgba(255,140,0,.45),transparent 70%),radial-gradient(closest-side at 50% 50%,rgba(255,205,70,.16),transparent 80%)}
-.petals{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.petal{position:absolute;top:-40px;animation:fall linear infinite,sway ease-in-out infinite alternate}
-.petal svg{display:block;width:100%;height:100%;animation:spin linear infinite}
-@keyframes fall{to{transform:translateY(calc(100vh + 80px))}}
-@keyframes sway{from{translate:-28px 0}to{translate:28px 0}}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.js .reveal{opacity:0;transform:translateY(32px) scale(.98);filter:blur(8px);transition:opacity 1s var(--ease),transform 1s var(--ease),filter 1s var(--ease);transition-delay:var(--d,0s)}
-.js .reveal.in{opacity:1;transform:none;filter:none}
-@media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;filter:none;transition:none}.petals{display:none}}
-
-.wrap{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 16px 0}
-.banner{position:relative;overflow:hidden;border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.5)}
-.banner img{width:100%;border-radius:14px}
-.banner .cover{aspect-ratio:16/9;object-fit:cover}
-.banner .frame{position:absolute;inset:0;height:100%;max-width:none;pointer-events:none}
-.avatar{position:relative;width:var(--av);height:var(--av);margin:calc(var(--av)/-2) auto 0}
-.pic{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff}
-.ring{position:absolute;left:50%;top:calc(-28% - 2px);width:58%;transform:translateX(-50%);pointer-events:none}
-.name{margin-top:14px;display:flex;justify-content:center;align-items:center;gap:8px;text-align:center;font:400 clamp(1.5rem,7vw,1.9rem)/1.2 "Redaction 35",Georgia,serif}
-.name span{color:#fff;text-shadow:0 0 4px #fff,0 0 10px #7df9ff,0 0 22px #20c8ff,0 0 42px #0a9cff;animation:neon 3.5s ease-in-out infinite alternate}
-@keyframes neon{to{text-shadow:0 0 3px #fff,0 0 8px #7df9ff,0 0 15px #20c8ff,0 0 28px #0a9cff}}
-.name img{width:1.1em;height:1.1em}
-
-.socials{display:flex;width:max-content;margin:14px auto 0;gap:22px;padding:8px 18px;border-radius:999px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.3);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 8px 24px rgba(0,0,0,.5)}
-.socials a{position:relative;display:block}
-.socials a+a::before{content:"";position:absolute;left:-12px;top:22%;height:56%;width:1px;background:rgba(255,255,255,.28)}
-.ic{display:block;width:42px;height:42px;transition:transform .5s var(--ease)}
-a:active .ic{transform:scale(.92)}
-@media (hover:hover){a:hover .ic{transform:translateY(-2px) scale(1.08)}}
-
-.glass{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.38);border-radius:999px;background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(15px) saturate(170%);backdrop-filter:blur(15px) saturate(170%);box-shadow:inset 0 1px 1px rgba(255,255,255,.55),inset 0 -12px 24px rgba(255,255,255,.07),0 14px 34px rgba(0,0,0,.5)}
-.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.3),transparent 42%)}
-
-.player{display:flex;align-items:center;gap:16px;margin:18px 4px 0;padding:12px 18px 12px 14px}
-.disc{flex:none;width:64px;height:64px;transform:scale(.86);transition:transform .7s var(--ease)}
-.playing .disc{transform:none}
-.disc img{width:100%;height:100%;border-radius:50%;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,.5)}
-.seek{--p:0%;flex:1;min-width:0;height:28px;background:none;cursor:pointer;-webkit-appearance:none;appearance:none}
-.seek::-webkit-slider-runnable-track{height:6px;border-radius:9px;background:linear-gradient(90deg,#fff var(--p),rgba(255,255,255,.28) var(--p))}
-.seek::-moz-range-track{height:6px;border-radius:9px;background:linear-gradient(90deg,#fff var(--p),rgba(255,255,255,.28) var(--p))}
-.seek::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;margin-top:-4px;border:0;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.5);transition:transform .4s var(--ease)}
-.seek::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:50%;background:#fff;transition:transform .4s var(--ease)}
-.seek:active::-webkit-slider-thumb,.seek:active::-moz-range-thumb{transform:scale(1.4)}
-.play{position:relative;flex:none;width:46px;height:46px;border:1px solid rgba(255,255,255,.4);border-radius:50%;background:rgba(255,255,255,.14);color:#fff;cursor:pointer;transition:transform .5s var(--ease)}
-.play:active{transform:scale(.86)}
-.play svg{position:absolute;inset:0;margin:auto;width:20px;height:20px;fill:currentColor;transition:opacity .45s var(--ease),transform .55s var(--ease)}
-.play .pa,.playing .play .pl{opacity:0;transform:scale(.4)}
-.playing .play .pa{opacity:1;transform:none}
-
-.bio{padding:8vh 6px 6vh;font:clamp(1.7rem,7.4vw,2.2rem)/1.85 ui-serif,"New York","Iowan Old Style",Georgia,"Times New Roman",serif}
-.vn{display:inline-block;padding-right:.1em;font-style:italic;font-weight:800;background:linear-gradient(100deg,#ff1f1f,#da251d 35%,#ffcd00 75%,#ffe34d);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 14px rgba(255,170,0,.35))}
-
-.actions{display:grid;gap:18px;padding:0 4px}
-.action{width:100%;display:flex;align-items:center;gap:14px;padding:12px 24px 12px 16px;color:#fff;cursor:pointer;text-align:center;text-shadow:0 1px 10px rgba(0,0,0,.45);font:700 clamp(1.05rem,4.8vw,1.3rem)/1.25 -apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;transition:transform .55s var(--ease),background .55s var(--ease)}
-.action:active{transform:scale(.965)}
-@media (hover:hover){.action:hover{transform:translateY(-3px) scale(1.015);background:rgba(255,255,255,.16)}}
-.action img{flex:none;width:64px;height:48px;object-fit:contain}
-.action i{align-self:stretch;width:1px;margin:6px 0;background:rgba(255,255,255,.35)}
-.action span{flex:1}
-.price{font:400 1em Coiny,sans-serif;color:#00e5ff;text-shadow:0 0 10px rgba(0,229,255,.6)}
-
-footer{position:relative;z-index:1;padding:14vh 20px calc(40px + env(safe-area-inset-bottom));text-align:center;font-size:.95rem;line-height:1.9;color:rgba(255,255,255,.72)}
-footer em{color:#fff}
-
-.overlay{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility 0s .5s}
-.overlay.open{opacity:1;visibility:visible;transition:opacity .5s var(--ease)}
-.sheet{position:relative;width:min(100%,380px);padding:36px 22px 28px;text-align:center;border-radius:30px;background:rgba(255,250,238,.9);border:1px solid rgba(255,255,255,.7);-webkit-backdrop-filter:blur(30px) saturate(180%);backdrop-filter:blur(30px) saturate(180%);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(var(--gold),.25);transform:translateY(28px) scale(.9);opacity:0;transition:transform .65s var(--ease),opacity .45s var(--ease)}
-.open .sheet{transform:none;opacity:1}
-.sheet h2{font:800 clamp(1.15rem,5.2vw,1.4rem)/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;color:#2a1c00;background:linear-gradient(115deg,#9c6800,#d29a0a 24%,#8a5d00 46%,#2a1c00 74%,#000);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.sheet .row{display:flex;justify-content:center;gap:22px;margin-top:24px}
-.sheet .ic{width:58px;height:58px;filter:drop-shadow(0 6px 12px rgba(0,0,0,.25))}
-.close{position:absolute;top:12px;right:12px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(0,0,0,.08);color:#2a1c00;font-size:16px;line-height:1;cursor:pointer;transition:transform .45s var(--ease)}
-.close:active{transform:scale(.88)}
-@keyframes pop{0%,15%{opacity:0;transform:scale(.4)}35%,85%{opacity:1;transform:none}100%{opacity:0;transform:scale(.4)}}
-.splash{position:fixed;inset:0;z-index:100;display:grid;place-content:center;justify-items:center;gap:22px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(28px);backdrop-filter:blur(28px);transition:opacity .9s var(--ease),visibility 0s .9s}
-.splash.hide{opacity:0;visibility:hidden;pointer-events:none}
-.splash p{font:400 1.8rem/1 "Redaction 35",Georgia,serif}
-/* Fallback: splash tự ẩn sau 3.5s kể cả khi JS lỗi */
-.splash{animation:splashOff .9s var(--ease) 3.5s forwards}
-@keyframes splashOff{to{opacity:0;visibility:hidden;pointer-events:none;background:transparent;-webkit-backdrop-filter:none;backdrop-filter:none}}
-.dots i,.hearts svg{display:inline-block;font-style:normal;animation:pop 1.5s var(--ease) infinite both}
-.dots i:nth-child(2),.hearts svg:nth-child(2){animation-delay:.25s}
-.dots i:nth-child(3),.hearts svg:nth-child(3){animation-delay:.5s}
-.hearts{display:flex;gap:10px}
-.hearts svg{width:36px;height:36px;filter:drop-shadow(0 0 8px rgba(255,70,90,.55))}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#000">
+  <title>PNguyen Huy Hoang</title>
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Redaction+35:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Coiny&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="lock">
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-<symbol id="i-fb" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M16.67 15.47 17.2 12h-3.33V9.75c0-.95.47-1.88 1.96-1.88h1.51V4.92s-1.37-.23-2.69-.23c-2.74 0-4.53 1.66-4.53 4.67V12H7.08v3.47h3.05V24h3.75v-8.53z"/></symbol>
-<symbol id="i-zalo" viewBox="0 0 24 24"><path fill="#0068FF" d="M7 1h10a6 6 0 0 1 6 6v7a6 6 0 0 1-6 6H8.5L3 23.5l1.3-4.4A6 6 0 0 1 1 14V7a6 6 0 0 1 6-6z"/><text x="12" y="13.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="8.4" letter-spacing="-.2" fill="#fff">Zalo</text></symbol>
-<symbol id="i-dc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#5865F2"/><path fill="#fff" transform="translate(4.8 4.8) scale(.6)" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></symbol>
-<symbol id="i-sakura" viewBox="0 0 11 11"><g shape-rendering="crispEdges"><path fill="#FFC4D8" d="M4 0h1v1H4zM6 0h1v1H6zM3 1h5v2H3zM1 3h2v1H1zM4 3h3v1H4zM8 3h2v1H8zM1 4h9v2H1zM2 6h7v1H2zM2 7h3v2H2zM6 7h3v2H6zM3 9h1v1H3zM7 9h1v1H7z"/><path fill="#FF8FB4" d="M4 4h3v3H4z"/><path fill="#FFF0F6" d="M4 1h1v1H4zM2 4h1v1H2zM7 7h1v1H7z"/><path fill="#FFD45E" d="M5 5h1v1H5z"/></g></symbol>
-<symbol id="i-heart" viewBox="0 0 9 9"><g shape-rendering="crispEdges"><path fill="#3b0b12" d="M1 0h3v1H1zM5 0h3v1H5zM0 1h1v4H0zM8 1h1v4H8zM4 1h1v1H4zM1 5h1v1H1zM7 5h1v1H7zM2 6h1v1H2zM6 6h1v1H6zM3 7h1v1H3zM5 7h1v1H5zM4 8h1v1H4z"/><path fill="#ff3b4e" d="M1 1h3v1H1zM5 1h3v1H5zM1 2h7v1H1zM1 3h7v2H1zM2 5h5v1H2zM3 6h3v1H3zM4 7h1v1H4z"/><path fill="#ffd0d6" d="M2 1h1v1H2zM1 2h1v1H1z"/><path fill="#b0182c" d="M7 3h1v2H7zM6 5h1v1H6zM5 6h1v1H5z"/></g></symbol>
-</svg>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-fb" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path fill="#fff" d="M16.67 15.47 17.2 12h-3.33V9.75c0-.95.47-1.88 1.96-1.88h1.51V4.92s-1.37-.23-2.69-.23c-2.74 0-4.53 1.66-4.53 4.67V12H7.08v3.47h3.05V24h3.75v-8.53z"/></symbol>
+    <symbol id="i-zalo" viewBox="0 0 24 24"><path fill="#0068FF" d="M7 1h10a6 6 0 0 1 6 6v7a6 6 0 0 1-6 6H8.5L3 23.5l1.3-4.4A6 6 0 0 1 1 14V7a6 6 0 0 1 6-6z"/><text x="12" y="13.8" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="8.4" letter-spacing="-.2" fill="#fff">Zalo</text></symbol>
+    <symbol id="i-dc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#5865F2"/><path fill="#fff" transform="translate(4.8 4.8) scale(.6)" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></symbol>
+    <symbol id="i-sakura" viewBox="0 0 11 11"><g shape-rendering="crispEdges"><path fill="#FFC4D8" d="M4 0h1v1H4zM6 0h1v1H6zM3 1h5v2H3zM1 3h2v1H1zM4 3h3v1H4zM8 3h2v1H8zM1 4h9v2H1zM2 6h7v1H2zM2 7h3v2H2zM6 7h3v2H6zM3 9h1v1H3zM7 9h1v1H7z"/><path fill="#FF8FB4" d="M4 4h3v3H4z"/><path fill="#FFF0F6" d="M4 1h1v1H4zM2 4h1v1H2zM7 7h1v1H7z"/><path fill="#FFD45E" d="M5 5h1v1H5z"/></g></symbol>
+    <symbol id="i-heart" viewBox="0 0 9 9"><g shape-rendering="crispEdges"><path fill="#3b0b12" d="M1 0h3v1H1zM5 0h3v1H5zM0 1h1v4H0zM8 1h1v4H8zM4 1h1v1H4zM1 5h1v1H1zM7 5h1v1H7zM2 6h1v1H2zM6 6h1v1H6zM3 7h1v1H3zM5 7h1v1H5zM4 8h1v1H4z"/><path fill="#ff3b4e" d="M1 1h3v1H1zM5 1h3v1H5zM1 2h7v1H1zM1 3h7v2H1zM2 5h5v1H2zM3 6h3v1H3zM4 7h1v1H4z"/><path fill="#ffd0d6" d="M2 1h1v1H2zM1 2h1v1H1z"/><path fill="#b0182c" d="M7 3h1v2H7zM6 5h1v1H6zM5 6h1v1H5z"/></g></symbol>
+  </svg>
 
-<div class="hero-bg" aria-hidden="true"><div class="glow" id="glow"></div></div>
-<div class="petals" id="petals" aria-hidden="true"></div>
+  <div class="hero-bg" aria-hidden="true"><div class="glow" id="glow"></div></div>
+  <div class="petals" id="petals" aria-hidden="true"></div>
 
-<main class="wrap">
-  <div class="banner reveal">
-    <img class="cover" src="image/banner.jpeg" alt="Ảnh bìa" decoding="async">
-    <img class="frame" src="image/vienbanner.gif" alt="">
-  </div>
-  <div class="avatar reveal" style="--d:.1s">
-    <img class="pic" src="image/avatar.jpeg" alt="Ảnh đại diện PNguyen Huy Hoang" decoding="async">
-    <img class="ring" src="image/vien.gif" alt="">
-  </div>
+  <main class="wrap">
+    <div class="banner reveal">
+      <img class="cover" src="image/banner.jpeg" alt="Ảnh bìa" decoding="async">
+      <img class="frame" src="image/vienbanner.gif" alt="">
+    </div>
+    <div class="avatar reveal" style="--d:.1s">
+      <img class="pic" src="image/avatar.jpeg" alt="Ảnh đại diện PNguyen Huy Hoang" decoding="async">
+      <img class="ring" src="image/vien.gif" alt="">
+    </div>
 
-  <h1 class="name reveal" style="--d:.15s"><span>PNguyen Huy Hoang</span><img src="image/tichxanh.gif" alt="Đã xác minh"></h1>
+    <h1 class="name reveal" style="--d:.15s"><span>PNguyen Huy Hoang</span><img src="image/tichxanh.gif" alt="Đã xác minh"></h1>
 
-  <nav class="socials reveal" style="--d:.22s" aria-label="Mạng xã hội">
-    <a data-link="fb" aria-label="Facebook"><svg class="ic"><use href="#i-fb"/></svg></a>
-    <a data-link="zalo" aria-label="Zalo"><svg class="ic"><use href="#i-zalo"/></svg></a>
-    <a data-link="discord" aria-label="Discord"><svg class="ic"><use href="#i-dc"/></svg></a>
-  </nav>
-
-  <div class="player glass reveal">
-    <div class="disc"><img src="image/dianhac.png" alt="Đĩa nhạc"></div>
-    <input class="seek" type="range" min="0" max="1000" value="0" aria-label="Tua nhạc">
-    <button class="play" type="button" aria-label="Phát / dừng">
-      <svg class="pl" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.9l10.5-6.5a1 1 0 0 0 0-1.7L9.5 4.6A1 1 0 0 0 8 5.5z"/></svg>
-      <svg class="pa" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.3"/><rect x="14" y="5" width="4" height="14" rx="1.3"/></svg>
-    </button>
-    <audio id="audio" src="audio/exhateme.mp3" preload="metadata" loop></audio>
-  </div>
-
-  <p class="bio reveal">I’m a <span class="vn">Vietnam</span> people. I love vibe code, listen music and sleep.</p>
-
-  <section class="actions">
-    <div class="reveal"><button class="action glass" type="button" data-open-modal><img src="image/ctr.png" alt=""><i></i><span>Cải thiện Rank, Top Tướng</span></button></div>
-    <div class="reveal" style="--d:.1s"><button class="action glass" type="button" data-open-modal><img src="image/cs.png" alt=""><i></i><span>Chung sức LQ siêu tốc <b class="price">35k</b></span></button></div>
-    <div class="reveal" style="--d:.2s"><button class="action glass" type="button" data-open-modal><img src="image/hcj.png" alt=""><i></i><span>Làm website Profile, Custom Hook,…</span></button></div>
-  </section>
-</main>
-
-<footer>
-  <p class="reveal"><em>© PNguyen Huy Hoang</em></p>
-  <p class="reveal" style="--d:.12s">Source code by HuyHoang/Open Source Repo in Github/wuyhoanqz</p>
-</footer>
-
-<div class="overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
-  <div class="sheet">
-    <button class="close" type="button" aria-label="Đóng">✕</button>
-    <h2 id="modal-title">Bạn muốn Cải thiện Rank, Top tướng hoặc cày chung sức siêu tốc? Liên hệ với chúng tôi ngay:</h2>
-    <div class="row">
+    <nav class="socials reveal" style="--d:.22s" aria-label="Mạng xã hội">
       <a data-link="fb" aria-label="Facebook"><svg class="ic"><use href="#i-fb"/></svg></a>
       <a data-link="zalo" aria-label="Zalo"><svg class="ic"><use href="#i-zalo"/></svg></a>
       <a data-link="discord" aria-label="Discord"><svg class="ic"><use href="#i-dc"/></svg></a>
+    </nav>
+
+    <div class="player glass reveal">
+      <div class="disc"><img src="image/dianhac.png" alt="Đĩa nhạc"></div>
+      <input class="seek" type="range" min="0" max="1000" value="0" aria-label="Tua nhạc">
+      <button class="play" type="button" aria-label="Phát / dừng">
+        <svg class="pl" viewBox="0 0 24 24"><path d="M8 5.5v13a1 1 0 0 0 1.5.9l10.5-6.5a1 1 0 0 0 0-1.7L9.5 4.6A1 1 0 0 0 8 5.5z"/></svg>
+        <svg class="pa" viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1.3"/><rect x="14" y="5" width="4" height="14" rx="1.3"/></svg>
+      </button>
+      <audio id="audio" src="audio/exhateme.mp3" preload="metadata" loop></audio>
+    </div>
+
+    <p class="bio reveal">I’m a <span class="vn">Vietnam</span> people. I love vibe code, listen music and sleep.</p>
+
+    <section class="actions">
+      <div class="reveal"><button class="action glass" type="button" data-open-modal><img src="image/ctr.png" alt=""><i></i><span>Cải thiện Rank, Top Tướng</span></button></div>
+      <div class="reveal" style="--d:.1s"><button class="action glass" type="button" data-open-modal><img src="image/cs.png" alt=""><i></i><span>Chung sức LQ siêu tốc <b class="price">35k</b></span></button></div>
+      <div class="reveal" style="--d:.2s"><button class="action glass" type="button" data-open-modal><img src="image/hcj.png" alt=""><i></i><span>Làm website Profile, Custom Hook,…</span></button></div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="reveal"><em>© PNguyen Huy Hoang</em></p>
+    <p class="reveal" style="--d:.12s">Source code by HuyHoang/Open Source Repo in Github/wuyhoanqz</p>
+  </footer>
+
+  <div class="overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div class="sheet">
+      <button class="close" type="button" aria-label="Đóng">✕</button>
+      <h2 id="modal-title">Bạn muốn Cải thiện Rank, Top tướng hoặc cày chung sức siêu tốc? Liên hệ với chúng tôi ngay:</h2>
+      <div class="row">
+        <a data-link="fb" aria-label="Facebook"><svg class="ic"><use href="#i-fb"/></svg></a>
+        <a data-link="zalo" aria-label="Zalo"><svg class="ic"><use href="#i-zalo"/></svg></a>
+        <a data-link="discord" aria-label="Discord"><svg class="ic"><use href="#i-dc"/></svg></a>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="splash" id="splash" role="status">
-  <p>Xin chờ chút<span class="dots"><i>.</i><i>.</i><i>.</i></span></p>
-  <div class="hearts"><svg viewBox="0 0 9 9"><use href="#i-heart"/></svg><svg viewBox="0 0 9 9"><use href="#i-heart"/></svg><svg viewBox="0 0 9 9"><use href="#i-heart"/></svg></div>
-</div>
+  <div class="splash" id="splash" role="status">
+    <p>Xin chờ chút<span class="dots"><i>.</i><i>.</i><i>.</i></span></p>
+    <div class="hearts"><svg viewBox="0 0 9 9"><use href="#i-heart"/></svg><svg viewBox="0 0 9 9"><use href="#i-heart"/></svg><svg viewBox="0 0 9 9"><use href="#i-heart"/></svg></div>
+  </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
-
-  // Cứu hộ splash
-  setTimeout(() => {
-    const s = document.getElementById('splash');
-    if (s) {
-      s.classList.add('hide');
-      document.body.classList.remove('lock');
-      setTimeout(() => s.remove(), 1000);
-    }
-  }, 5000);
-
-  const LINKS = { fb: 'LINK-FACEBOOK-TAI-DAY', zalo: 'https://zalo.me/0366474283', discord: 'https://discord.gg/5N77ej5v' };
-  $$('[data-link]').forEach(a => { a.href = LINKS[a.dataset.link]; a.target = '_blank'; a.rel = 'noopener'; });
-
-  // HIỆU ỨNG XOAY GLOW BACKGROUND
-  const glow = $('#glow');
-  let target = 0, current = 0, raf = 0;
-  const turnGlow = () => {
-    current += (target - current) * .12;
-    if(glow) glow.style.transform = `rotate(${current}deg)`;
-    raf = Math.abs(target - current) > .01 ? requestAnimationFrame(turnGlow) : 0;
-  };
-  const onScroll = () => { target = scrollY * .25; raf || (raf = requestAnimationFrame(turnGlow)); };
-  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
-
-  const io = new IntersectionObserver(entries => entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
-
-  // XỬ LÝ MODAL
-  const modal = $('#modal');
-  const toggleModal = open => {
-    if (!modal) return;
-    modal.classList.toggle('open', open);
-    modal.setAttribute('aria-hidden', !open);
-    document.body.classList.toggle('lock', open);
-  };
-  
-  $$('[data-open-modal]').forEach(b => b.addEventListener('click', () => toggleModal(true)));
-  if(modal) {
-    modal.addEventListener('click', e => { if (e.target === modal || e.target.closest('.close')) toggleModal(false); });
-  }
-  addEventListener('keydown', e => { if (e.key === 'Escape') toggleModal(false); });
-
-  // PLAYER NHẠC
-  const audio = $('#audio'), player = $('.player'), spinner = $('.disc img'), seek = $('.seek');
-  let angle = 0, speed = 0, last = 0, dragging = false, running = false;
-  const paint = () => { if(seek) seek.style.setProperty('--p', seek.value / 10 + '%'); };
-  const animFrame = t => {
-    const dt = Math.min((t - last) / 1000, .05);
-    last = t;
-    speed += ((audio.paused ? 0 : 40) - speed) * Math.min(1, dt * 3);
-    angle = (angle + speed * dt) % 360;
-    if(spinner) spinner.style.transform = `rotate(${angle}deg)`;
-    if (!dragging && audio.duration) { seek.value = audio.currentTime / audio.duration * 1000; paint(); }
-    running = !audio.paused || speed > .1;
-    if (running) requestAnimationFrame(animFrame);
-  };
-  const run = () => { if (!running) { running = true; last = performance.now(); requestAnimationFrame(animFrame); } };
-  
-  if($('.play')) $('.play').addEventListener('click', () => audio.paused ? audio.play().catch(() => {}) : audio.pause());
-  if(audio) {
-    ['play', 'pause'].forEach(ev => audio.addEventListener(ev, () => { player.classList.toggle('playing', !audio.paused); run(); }));
-  }
-  if(seek) {
-    seek.addEventListener('pointerdown', () => dragging = true);
-    ['pointerup', 'pointercancel'].forEach(ev => seek.addEventListener(ev, () => dragging = false));
-    seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = seek.value / 1000 * audio.duration; paint(); });
-  }
-
-  // AUTOPLAY (Click để phát nhạc)
-  if(audio) {
-    audio.play().catch(() => {});
-    let firstGesture = false;
-    const tryPlay = () => {
-      if (firstGesture) return;
-      firstGesture = true;
-      if (!audio.paused) return;
-      audio.play().catch(() => {});
-    };
-    ['click', 'keydown', 'touchstart'].forEach(ev => addEventListener(ev, tryPlay, { once: true, passive: true }));
-  }
-
-  // FIT FRAME BANNER
-  const frameEl = $('.frame');
-  const fitFrame = () => {
-    if(!frameEl) return;
-    const w = frameEl.naturalWidth, h = frameEl.naturalHeight;
-    if (!w) return;
-    const ctx = Object.assign(document.createElement('canvas'), { width: w, height: h }).getContext('2d');
-    ctx.drawImage(frameEl, 0, 0);
-    try {
-      const px = ctx.getImageData(0, 0, w, h).data;
-      let l = w, t = h, r = -1, b = -1;
-      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-        if (px[(y * w + x) * 4 + 3] > 128) { l = Math.min(l, x); r = Math.max(r, x); t = Math.min(t, y); b = Math.max(b, y); }
-      }
-      if (r < 0) return;
-      const bw = r - l + 1, bh = b - t + 1;
-      Object.assign(frameEl.style, { left: -l / bw * 100 + '%', top: -t / bh * 100 + '%', width: w / bw * 100 + '%', height: h / bh * 100 + '%' });
-    } catch {}
-  };
-  if(frameEl) {
-    frameEl.complete ? fitFrame() : frameEl.addEventListener('load', fitFrame);
-  }
-
-  // SPLASH SCREEN
-  const splash = $('#splash');
-  if(splash) {
-    setTimeout(() => {
-      splash.classList.add('hide');
-      document.body.classList.remove('lock');
-      $$('.reveal').forEach(el => io.observe(el));
-      setTimeout(() => splash.remove(), 1000);
-    }, 3000);
-  }
-
-  // SAKURA PETALS (Hoa anh đào rơi)
-  const r = (min, range) => (min + Math.random() * range).toFixed(1);
-  if($('#petals')) {
-    for (let i = 0; i < (innerWidth < 600 ? 12 : 22); i++) {
-      const size = r(12, 16), petal = document.createElement('span');
-      petal.className = 'petal';
-      petal.style.cssText = `left:${r(0, 100)}%;width:${size}px;height:${size}px;opacity:${r(.45, .5)};animation-duration:${r(9, 10)}s,${r(3, 3)}s;animation-delay:-${r(0, 18)}s,-${r(0, 5)}s`;
-      petal.innerHTML = `<svg viewBox="0 0 11 11" style="animation-duration:${r(6, 8)}s"><use href="#i-sakura"/></svg>`;
-      $('#petals').append(petal);
-    }
-  }
-});
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
