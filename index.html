@@ -41,7 +41,7 @@ a{color:inherit;text-decoration:none}
 .banner .frame{position:absolute;inset:0;height:100%;max-width:none;pointer-events:none}
 .avatar{position:relative;width:var(--av);height:var(--av);margin:calc(var(--av)/-2) auto 0}
 .pic{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#fff}
-.ring{position:absolute;left:50%;top:calc(-10% - 2px);width:58%;transform:translateX(-50%);pointer-events:none}
+.ring{position:absolute;left:50%;top:calc(-28% - 2px);width:58%;transform:translateX(-50%);pointer-events:none}
 .name{margin-top:14px;display:flex;justify-content:center;align-items:center;gap:8px;text-align:center;font:400 clamp(1.5rem,7vw,1.9rem)/1.2 "Redaction 35",Georgia,serif}
 .name span{color:#fff;text-shadow:0 0 4px #fff,0 0 10px #7df9ff,0 0 22px #20c8ff,0 0 42px #0a9cff;animation:neon 3.5s ease-in-out infinite alternate}
 @keyframes neon{to{text-shadow:0 0 3px #fff,0 0 8px #7df9ff,0 0 15px #20c8ff,0 0 28px #0a9cff}}
@@ -109,6 +109,21 @@ footer em{color:#fff}
 .dots i:nth-child(3),.hearts svg:nth-child(3){animation-delay:.5s}
 .hearts{display:flex;gap:10px}
 .hearts svg{width:36px;height:36px;filter:drop-shadow(0 0 8px rgba(255,70,90,.55))}
+
+/* ===== HIỆU ỨNG CLICK ẢNH ===== */
+.click-fx{position:fixed;width:40px;height:40px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%) scale(.5);opacity:1;animation:clickFx .6s var(--ease) forwards}
+.click-fx img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 8px rgba(180,107,255,.6))}
+@keyframes clickFx{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}30%{transform:translate(-50%,-50%) scale(1.1);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.click-fx{display:none}}
+
+/* ===== VỆT SÁNG COMET NEON TÍM (PC) ===== */
+.comet{position:fixed;top:0;left:0;width:22px;height:22px;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s var(--ease);
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0%,rgba(196,140,255,.85) 35%,rgba(124,58,237,.55) 65%,transparent 100%);
+  box-shadow:0 0 12px rgba(180,107,255,.9),0 0 24px rgba(124,58,237,.6),0 0 48px rgba(124,58,237,.35);
+  will-change:transform,opacity}
+.comet.on{opacity:1}
+@media (hover:none),(pointer:coarse){.comet{display:none}}
+@media (prefers-reduced-motion:reduce){.comet{display:none}}
 </style>
 </head>
 <body class="lock">
@@ -122,6 +137,7 @@ footer em{color:#fff}
 
 <div class="hero-bg" aria-hidden="true"><div class="glow" id="glow"></div></div>
 <div class="petals" id="petals" aria-hidden="true"></div>
+<div class="comet" id="comet" aria-hidden="true"></div>
 
 <main class="wrap">
   <div class="banner reveal">
@@ -248,9 +264,18 @@ seek.addEventListener('pointerdown', () => dragging = true);
 ['pointerup', 'pointercancel'].forEach(ev => seek.addEventListener(ev, () => dragging = false));
 seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = seek.value / 1000 * audio.duration; paint(); });
 
-const autoplay = () => audio.play().then(() => ['click', 'keydown'].forEach(ev => removeEventListener(ev, autoplay))).catch(() => {});
-autoplay();
-['click', 'keydown'].forEach(ev => addEventListener(ev, autoplay));
+/* ===== AUTOPLAY: click/tap bất kỳ đâu để phát nhạc ===== */
+audio.play().catch(() => {});
+let firstGesture = false;
+const tryPlay = () => {
+  if (firstGesture) return;
+  firstGesture = true;
+  if (!audio.paused) return;
+  audio.play().catch(() => {});
+};
+['click', 'keydown', 'touchstart'].forEach(ev =>
+  addEventListener(ev, tryPlay, { once: true, passive: true })
+);
 
 const frameEl = $('.frame');
 const fitFrame = () => {
@@ -286,6 +311,50 @@ for (let i = 0; i < (innerWidth < 600 ? 12 : 22); i++) {
   petal.style.cssText = `left:${r(0, 100)}%;width:${size}px;height:${size}px;opacity:${r(.45, .5)};animation-duration:${r(9, 10)}s,${r(3, 3)}s;animation-delay:-${r(0, 18)}s,-${r(0, 5)}s`;
   petal.innerHTML = `<svg viewBox="0 0 11 11" style="animation-duration:${r(6, 8)}s"><use href="#i-sakura"/></svg>`;
   $('#petals').append(petal);
+}
+
+/* ===== HIỆU ỨNG CLICK ẢNH (PC + Mobile) ===== */
+const showClickFx = (x, y) => {
+  const el = document.createElement('div');
+  el.className = 'click-fx';
+  el.style.left = x + 'px';
+  el.style.top = y + 'px';
+  el.innerHTML = '<img src="image/click.png" alt="">';
+  document.body.appendChild(el);
+  el.addEventListener('animationend', () => el.remove(), { once: true });
+};
+addEventListener('pointerdown', e => {
+  if (e.pointerType === 'mouse' && e.button !== 0) return;
+  showClickFx(e.clientX, e.clientY);
+}, { passive: true });
+
+/* ===== COMET NEON TÍM THEO CHUỘT (chỉ PC) ===== */
+if (matchMedia('(hover:hover) and (pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const comet = $('#comet');
+  let tx = 0, ty = 0, cx = 0, cy = 0, active = false, rafId = 0;
+  const lerp = (a, b, n) => a + (b - a) * n;
+  const loop = () => {
+    cx = lerp(cx, tx, .18);
+    cy = lerp(cy, ty, .18);
+    comet.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
+    if (active || Math.abs(tx - cx) > .5 || Math.abs(ty - cy) > .5) {
+      rafId = requestAnimationFrame(loop);
+    } else {
+      rafId = 0;
+      comet.classList.remove('on');
+    }
+  };
+  addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    tx = e.clientX; ty = e.clientY;
+    if (!active) {
+      active = true;
+      comet.classList.add('on');
+      cx = tx; cy = ty;
+    }
+    if (!rafId) rafId = requestAnimationFrame(loop);
+  }, { passive: true });
+  addEventListener('pointerleave', () => { active = false; });
 }
 </script>
 </body>
