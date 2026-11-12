@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 5000);
 
-  const LINKS = { fb: 'LINK-FACEBOOK-TAI-DAY', zalo: 'https://zalo.me/0366474283', discord: 'https://discord.gg/5N77ej5v' };
+  const LINKS = { fb: 'https://fb.com/', zalo: 'https://zalo.me/0366474283', discord: 'https://discord.gg/5N77ej5v' };
   $$('[data-link]').forEach(a => {
     a.href = LINKS[a.dataset.link];
     a.target = '_blank';
