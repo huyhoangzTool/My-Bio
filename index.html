@@ -4,11 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#000">
-<meta name="description" content="PNguyen Huy Hoang — Profile cá nhân. Vibe code, nghe nhạc và ngủ.">
-<meta property="og:title" content="PNguyen Huy Hoang">
-<meta property="og:description" content="Profile cá nhân — vibe code, listen music and sleep.">
-<meta property="og:image" content="image/avatar.jpeg">
-<meta property="og:type" content="profile">
 <title>PNguyen Huy Hoang</title>
 <script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +60,7 @@ a:active .ic{transform:scale(.92)}
 .player{display:flex;align-items:center;gap:16px;margin:18px 4px 0;padding:12px 18px 12px 14px}
 .disc{flex:none;width:64px;height:64px;transform:scale(.86);transition:transform .7s var(--ease)}
 .playing .disc{transform:none}
-.disc img{width:100%;height:100%;border-radius:50%;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,.5);will-change:transform}
+.disc img{width:100%;height:100%;border-radius:50%;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,.5)}
 .seek{--p:0%;flex:1;min-width:0;height:28px;background:none;cursor:pointer;-webkit-appearance:none;appearance:none}
 .seek::-webkit-slider-runnable-track{height:6px;border-radius:9px;background:linear-gradient(90deg,#fff var(--p),rgba(255,255,255,.28) var(--p))}
 .seek::-moz-range-track{height:6px;border-radius:9px;background:linear-gradient(90deg,#fff var(--p),rgba(255,255,255,.28) var(--p))}
@@ -106,6 +101,9 @@ footer em{color:#fff}
 .splash{position:fixed;inset:0;z-index:100;display:grid;place-content:center;justify-items:center;gap:22px;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(28px);backdrop-filter:blur(28px);transition:opacity .9s var(--ease),visibility 0s .9s}
 .splash.hide{opacity:0;visibility:hidden;pointer-events:none}
 .splash p{font:400 1.8rem/1 "Redaction 35",Georgia,serif}
+/* Fallback: splash tự ẩn sau 3.5s kể cả khi JS lỗi */
+.splash{animation:splashOff .9s var(--ease) 3.5s forwards}
+@keyframes splashOff{to{opacity:0;visibility:hidden;pointer-events:none}}
 .dots i,.hearts svg{display:inline-block;font-style:normal;animation:pop 1.5s var(--ease) infinite both}
 .dots i:nth-child(2),.hearts svg:nth-child(2){animation-delay:.25s}
 .dots i:nth-child(3),.hearts svg:nth-child(3){animation-delay:.5s}
@@ -185,121 +183,71 @@ footer em{color:#fff}
 </div>
 
 <script>
-(() => {
-  'use strict';
-  const $ = s => document.querySelector(s);
-  const $$ = s => document.querySelectorAll(s);
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
 
-  /* ---------- Links ---------- */
-  const LINKS = {
-    fb: 'https://www.facebook.com/your.profile',   // ← thay link Facebook thật
-    zalo: 'https://zalo.me/0366474283',
-    discord: 'https://discord.gg/5N77ej5v'
-  };
-  $$('[data-link]').forEach(a => {
-    const url = LINKS[a.dataset.link];
-    if (!url) return;
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-  });
+// Cứu hộ: nếu vì lý do gì splash vẫn còn sau 5s, ẩn nó
+setTimeout(() => {
+  const s = document.getElementById('splash');
+  if (s) { s.classList.add('hide'); document.body.classList.remove('lock'); setTimeout(() => s.remove(), 1000); }
+}, 5000);
 
-  /* ---------- Glow rotation theo scroll ---------- */
-  const glow = $('#glow');
-  let targetAngle = 0, currentAngle = 0, glowRaf = 0;
-  const stepGlow = () => {
-    currentAngle += (targetAngle - currentAngle) * 0.12;
-    glow.style.transform = `rotate(${currentAngle}deg)`;
-    glowRaf = Math.abs(targetAngle - currentAngle) > 0.01
-      ? requestAnimationFrame(stepGlow)
-      : 0;
-  };
-  if (!reduceMotion && glow) {
-    const onScroll = () => {
-      targetAngle = scrollY * 0.25;
-      if (!glowRaf) glowRaf = requestAnimationFrame(stepGlow);
-    };
-    addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-  }
+const LINKS = { fb: 'LINK-FACEBOOK-TAI-DAY', zalo: 'https://zalo.me/0366474283', discord: 'https://discord.gg/5N77ej5v' };
+$$('[data-link]').forEach(a => { a.href = LINKS[a.dataset.link]; a.target = '_blank'; a.rel = 'noopener'; });
 
-  /* ---------- Reveal on scroll ---------- */
-  const revealIO = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in');
-        revealIO.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+const glow = $('#glow');
+let target = 0, current = 0, raf = 0;
+const turnGlow = () => {
+  current += (target - current) * .12;
+  glow.style.transform = `rotate(${current}deg)`;
+  raf = Math.abs(target - current) > .01 ? requestAnimationFrame(turnGlow) : 0;
+};
+const onScroll = () => { target = scrollY * .25; raf || (raf = requestAnimationFrame(turnGlow)); };
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
 
-  /* ---------- Modal ---------- */
-  const modal = $('#modal');
-  let lastFocus = null;
-  const toggleModal = open => {
-    if (!modal) return;
-    if (open) {
-      lastFocus = document.activeElement;
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('lock');
-      // focus vào nút đóng để dễ thoát
-      setTimeout(() => modal.querySelector('.close')?.focus(), 50);
-    } else {
-      modal.classList.remove('open');
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('lock');
-      lastFocus?.focus?.();
-    }
-  };
-  $$('[data-open-modal]').forEach(b => b.addEventListener('click', () => toggleModal(true)));
-  modal?.addEventListener('click', e => {
-    if (e.target === modal || e.target.closest('.close')) toggleModal(false);
-  });
-  addEventListener('keydown', e => {
-    if (e.key === 'Escape' && modal?.classList.contains('open')) toggleModal(false);
-  });
+const io = new IntersectionObserver(entries => entries.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
 
-  /* ---------- Music Player ---------- */
-  const audio   = $('#audio');
-  const player  = $('.player');
-  const discImg = $('.disc img');
-  const seek    = $('.seek');
-  const playBtn = $('.play');
+const modal = $('#modal');
+const toggleModal = open => {
+  modal.classList.toggle('open', open);
+  modal.setAttribute('aria-hidden', !open);
+  document.body.classList.toggle('lock', open);
+};
+$$('[data-open-modal]').forEach(b => b.addEventListener('click', () => toggleModal(true)));
+modal.addEventListener('click', e => { if (e.target === modal || e.target.closest('.close')) toggleModal(false); });
+addEventListener('keydown', e => { if (e.key === 'Escape') toggleModal(false); });
 
-  let angle = 0, speed = 0, lastT = 0, dragging = false, running = false;
+const audio = $('#audio'), player = $('.player'), spinner = $('.disc img'), seek = $('.seek');
+let angle = 0, speed = 0, last = 0, dragging = false, running = false;
+const paint = () => seek.style.setProperty('--p', seek.value / 10 + '%');
+const animFrame = t => {
+  const dt = Math.min((t - last) / 1000, .05);
+  last = t;
+  speed += ((audio.paused ? 0 : 40) - speed) * Math.min(1, dt * 3);
+  angle = (angle + speed * dt) % 360;
+  spinner.style.transform = `rotate(${angle}deg)`;
+  if (!dragging && audio.duration) { seek.value = audio.currentTime / audio.duration * 1000; paint(); }
+  running = !audio.paused || speed > .1;
+  if (running) requestAnimationFrame(animFrame);
+};
+const run = () => { if (!running) { running = true; last = performance.now(); requestAnimationFrame(animFrame); } };
+$('.play').addEventListener('click', () => audio.paused ? audio.play().catch(() => {}) : audio.pause());
+['play', 'pause'].forEach(ev => audio.addEventListener(ev, () => { player.classList.toggle('playing', !audio.paused); run(); }));
+seek.addEventListener('pointerdown', () => dragging = true);
+['pointerup', 'pointercancel'].forEach(ev => seek.addEventListener(ev, () => dragging = false));
+seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = seek.value / 1000 * audio.duration; paint(); });
 
-  const paintSeek = () => seek.style.setProperty('--p', (seek.value / 10) + '%');
+const autoplay = () => audio.play().then(() => ['click', 'keydown'].forEach(ev => removeEventListener(ev, autoplay))).catch(() => {});
+autoplay();
+['click', 'keydown'].forEach(ev => addEventListener(ev, autoplay));
 
-  const tick = t => {
-    const dt = Math.min((t - lastT) / 1000, 0.05);
-    lastT = t;
-    const targetSpeed = audio.paused ? 0 : 40;
-    speed += (targetSpeed - speed) * Math.min(1, dt * 3);
-    angle = (angle + speed * dt) % 360;
-    discImg.style.transform = `rotate(${angle}deg)`;
-    if (!dragging && audio.duration) {
-      seek.value = (audio.currentTime / audio.duration) * 1000;
-      paintSeek();
-    }
-    running = !audio.paused || speed > 0.1;
-    if (running) requestAnimationFrame(tick);
-  };
-  const startLoop = () => {
-    if (running) return;
-    running = true;
-    lastT = performance.now();
-    requestAnimationFrame(tick);
-  };
-
-  playBtn?.addEventListener('click', () => {
-    if (audio.paused) audio.play().catch(() => {});
-    else audio.pause();
-  });
-  ['play', 'pause'].forEach(ev => audio.addEventListener(ev, () => {
-    player.classList.toggle('playing', !audio.paused);
-    startLoop();
-  }));
-  seek?.addEventListener('pointerdown', () => dragging = true);
-  ['pointerup', 'pointercancel',
+const frameEl = $('.frame');
+const fitFrame = () => {
+  const w = frameEl.naturalWidth, h = frameEl.naturalHeight;
+  if (!w) return;
+  const ctx = Object.assign(document.createElement('canvas'), { width: w, height: h }).getContext('2d');
+  ctx.drawImage(frameEl
