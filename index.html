@@ -109,21 +109,6 @@ footer em{color:#fff}
 .dots i:nth-child(3),.hearts svg:nth-child(3){animation-delay:.5s}
 .hearts{display:flex;gap:10px}
 .hearts svg{width:36px;height:36px;filter:drop-shadow(0 0 8px rgba(255,70,90,.55))}
-
-/* ===== HIỆU ỨNG CLICK ẢNH ===== */
-.click-fx{position:fixed;width:40px;height:40px;pointer-events:none;z-index:0;transform:translate(-50%,-50%) scale(.5);opacity:1;animation:clickFx 1s var(--ease) forwards}
-.click-fx img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 8px rgba(180,107,255,.6))}
-@keyframes clickFx{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}30%{transform:translate(-50%,-50%) scale(1.1);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
-@media (prefers-reduced-motion:reduce){.click-fx{display:none}}
-
-/* ===== VỆT SÁNG COMET NEON TÍM (PC) ===== */
-.comet{position:fixed;top:0;left:0;width:22px;height:22px;border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s var(--ease);
-  background:radial-gradient(circle,rgba(255,255,255,.95) 0%,rgba(196,140,255,.85) 35%,rgba(124,58,237,.55) 65%,transparent 100%);
-  box-shadow:0 0 12px rgba(180,107,255,.9),0 0 24px rgba(124,58,237,.6),0 0 48px rgba(124,58,237,.35);
-  will-change:transform,opacity}
-.comet.on{opacity:1}
-@media (hover:none),(pointer:coarse){.comet{display:none}}
-@media (prefers-reduced-motion:reduce){.comet{display:none}}
 </style>
 </head>
 <body class="lock">
@@ -137,7 +122,6 @@ footer em{color:#fff}
 
 <div class="hero-bg" aria-hidden="true"><div class="glow" id="glow"></div></div>
 <div class="petals" id="petals" aria-hidden="true"></div>
-<div class="comet" id="comet" aria-hidden="true" style="pointer-events:none"></div>
 
 <main class="wrap">
   <div class="banner reveal">
@@ -199,19 +183,15 @@ footer em{color:#fff}
 </div>
 
 <script>
-// Đợi HTML load xong hoàn toàn mới chạy JS, tránh lỗi null
 document.addEventListener('DOMContentLoaded', () => {
   const $ = s => document.querySelector(s), $$ = s => document.querySelectorAll(s);
 
-  // Cứu hộ: nếu vì lý do gì splash vẫn còn sau 5s, ẩn nó
+  // Cứu hộ splash
   setTimeout(() => {
     const s = document.getElementById('splash');
     if (s) {
       s.classList.add('hide');
       document.body.classList.remove('lock');
-      s.style.backdropFilter = 'none';
-      s.style.webkitBackdropFilter = 'none';
-      s.style.background = 'transparent';
       setTimeout(() => s.remove(), 1000);
     }
   }, 5000);
@@ -219,11 +199,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const LINKS = { fb: 'LINK-FACEBOOK-TAI-DAY', zalo: 'https://zalo.me/0366474283', discord: 'https://discord.gg/5N77ej5v' };
   $$('[data-link]').forEach(a => { a.href = LINKS[a.dataset.link]; a.target = '_blank'; a.rel = 'noopener'; });
 
+  // HIỆU ỨNG XOAY GLOW BACKGROUND
   const glow = $('#glow');
   let target = 0, current = 0, raf = 0;
   const turnGlow = () => {
     current += (target - current) * .12;
-    glow.style.transform = `rotate(${current}deg)`;
+    if(glow) glow.style.transform = `rotate(${current}deg)`;
     raf = Math.abs(target - current) > .01 ? requestAnimationFrame(turnGlow) : 0;
   };
   const onScroll = () => { target = scrollY * .25; raf || (raf = requestAnimationFrame(turnGlow)); };
@@ -236,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
   }), { threshold: .15, rootMargin: '0px 0px -8% 0px' });
 
-  // XỬ LÝ MODAL (NÚT BẤM)
+  // XỬ LÝ MODAL
   const modal = $('#modal');
   const toggleModal = open => {
     if (!modal) return;
@@ -244,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.setAttribute('aria-hidden', !open);
     document.body.classList.toggle('lock', open);
   };
+  
   $$('[data-open-modal]').forEach(b => b.addEventListener('click', () => toggleModal(true)));
   if(modal) {
     modal.addEventListener('click', e => { if (e.target === modal || e.target.closest('.close')) toggleModal(false); });
@@ -253,18 +235,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // PLAYER NHẠC
   const audio = $('#audio'), player = $('.player'), spinner = $('.disc img'), seek = $('.seek');
   let angle = 0, speed = 0, last = 0, dragging = false, running = false;
-  const paint = () => seek.style.setProperty('--p', seek.value / 10 + '%');
+  const paint = () => { if(seek) seek.style.setProperty('--p', seek.value / 10 + '%'); };
   const animFrame = t => {
     const dt = Math.min((t - last) / 1000, .05);
     last = t;
     speed += ((audio.paused ? 0 : 40) - speed) * Math.min(1, dt * 3);
     angle = (angle + speed * dt) % 360;
-    spinner.style.transform = `rotate(${angle}deg)`;
+    if(spinner) spinner.style.transform = `rotate(${angle}deg)`;
     if (!dragging && audio.duration) { seek.value = audio.currentTime / audio.duration * 1000; paint(); }
     running = !audio.paused || speed > .1;
     if (running) requestAnimationFrame(animFrame);
   };
   const run = () => { if (!running) { running = true; last = performance.now(); requestAnimationFrame(animFrame); } };
+  
   if($('.play')) $('.play').addEventListener('click', () => audio.paused ? audio.play().catch(() => {}) : audio.pause());
   if(audio) {
     ['play', 'pause'].forEach(ev => audio.addEventListener(ev, () => { player.classList.toggle('playing', !audio.paused); run(); }));
@@ -275,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     seek.addEventListener('input', () => { if (audio.duration) audio.currentTime = seek.value / 1000 * audio.duration; paint(); });
   }
 
-  // AUTOPLAY
+  // AUTOPLAY (Click để phát nhạc)
   if(audio) {
     audio.play().catch(() => {});
     let firstGesture = false;
@@ -322,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 3000);
   }
 
-  // SAKURA PETALS
+  // SAKURA PETALS (Hoa anh đào rơi)
   const r = (min, range) => (min + Math.random() * range).toFixed(1);
   if($('#petals')) {
     for (let i = 0; i < (innerWidth < 600 ? 12 : 22); i++) {
@@ -331,53 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
       petal.style.cssText = `left:${r(0, 100)}%;width:${size}px;height:${size}px;opacity:${r(.45, .5)};animation-duration:${r(9, 10)}s,${r(3, 3)}s;animation-delay:-${r(0, 18)}s,-${r(0, 5)}s`;
       petal.innerHTML = `<svg viewBox="0 0 11 11" style="animation-duration:${r(6, 8)}s"><use href="#i-sakura"/></svg>`;
       $('#petals').append(petal);
-    }
-  }
-
-  // HIỆU ỨNG CLICK ẢNH
-  const showClickFx = (x, y) => {
-    const el = document.createElement('div');
-    el.className = 'click-fx';
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
-    el.style.pointerEvents = 'none';
-    el.innerHTML = '<img src="image/click.gif" alt="">';
-    document.body.appendChild(el);
-    el.addEventListener('animationend', () => el.remove(), { once: true });
-  };
-  addEventListener('pointerdown', e => {
-    if (e.pointerType === 'mouse' && e.button !== 0) return;
-    showClickFx(e.clientX, e.clientY);
-  }, { passive: true });
-
-  // COMET NEON TÍM
-  if (matchMedia('(hover:hover) and (pointer:fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const comet = $('#comet');
-    if(comet) {
-      let tx = 0, ty = 0, cx = 0, cy = 0, active = false, rafId = 0;
-      const lerp = (a, b, n) => a + (b - a) * n;
-      const loop = () => {
-        cx = lerp(cx, tx, .18);
-        cy = lerp(cy, ty, .18);
-        comet.style.transform = `translate(${cx}px,${cy}px) translate(-50%,-50%)`;
-        if (active || Math.abs(tx - cx) > .5 || Math.abs(ty - cy) > .5) {
-          rafId = requestAnimationFrame(loop);
-        } else {
-          rafId = 0;
-          comet.classList.remove('on');
-        }
-      };
-      addEventListener('pointermove', e => {
-        if (e.pointerType !== 'mouse') return;
-        tx = e.clientX; ty = e.clientY;
-        if (!active) {
-          active = true;
-          comet.classList.add('on');
-          cx = tx; cy = ty;
-        }
-        if (!rafId) rafId = requestAnimationFrame(loop);
-      }, { passive: true });
-      addEventListener('pointerleave', () => { active = false; });
     }
   }
 });
