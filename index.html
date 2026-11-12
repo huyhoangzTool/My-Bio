@@ -111,7 +111,7 @@ footer em{color:#fff}
 .hearts svg{width:36px;height:36px;filter:drop-shadow(0 0 8px rgba(255,70,90,.55))}
 
 /* ===== HIỆU ỨNG CLICK ẢNH ===== */
-.click-fx{position:fixed;width:40px;height:40px;pointer-events:none;z-index:0;transform:translate(-50%,-50%) scale(.5);opacity:1;animation:clickFx .6s var(--ease) forwards}
+.click-fx{position:fixed;width:40px;height:40px;pointer-events:none;z-index:0;transform:translate(-50%,-50%) scale(.5);opacity:1;animation:clickFx 1.5s var(--ease) forwards}
 .click-fx img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 8px rgba(180,107,255,.6))}
 @keyframes clickFx{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}30%{transform:translate(-50%,-50%) scale(1.1);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:0}}
 @media (prefers-reduced-motion:reduce){.click-fx{display:none}}
@@ -319,7 +319,7 @@ const showClickFx = (x, y) => {
   el.className = 'click-fx';
   el.style.left = x + 'px';
   el.style.top = y + 'px';
-  el.innerHTML = '<img src="image/click.png" alt="">';
+  el.innerHTML = '<img src="image/click.gif" alt="">';
   document.body.appendChild(el);
   el.addEventListener('animationend', () => el.remove(), { once: true });
 };
